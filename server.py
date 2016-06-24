@@ -24,8 +24,9 @@ def upload_it():
 	_filename = _file.filename
 	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
 	_file.save(os.path.join(app.config['UPLOAD_FOLDER']+_filename,'random.txt'))
+	call("script")
 	app.config['FNAME'] = _file.filename
-	call(["cp","ccode",app.config['UPLOAD_FOLDER']+_filename+'/ccode'])
+	# call(["cp","ccode",app.config['UPLOAD_FOLDER']+_filename+'/ccode'])
 	return redirect('/fileHome')
 
 @app.route('/fileHome',methods=['GET'])
