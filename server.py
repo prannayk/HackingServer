@@ -1,4 +1,4 @@
-from flask import Flask, request, json, render_template, session, redirect
+from flask import Flask, request, json, send_from_directory, render_template, session, redirect
 from subprocess import call
 import sys 
 import os
@@ -25,13 +25,13 @@ def upload_it():
 	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
 	_file.save(os.path.join(app.config['UPLOAD_FOLDER']+_filename,'random.txt'))
 	app.config['FNAME'] = _file.filename
-        call("shahash","uploads/"+_filename+"/random.txt")
+	call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
 	call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
 	return redirect('/fileHome')
 
 @app.route('/fileHome',methods=['GET'])
 def fileHome():
-	return render_template('file.html',data=app.config['FNAME'])
+	return send_from_directory(app.config['UPLOAD_FOLDER'],app.config['FNAME']+'/hash.txt')
 
 app.debug = True
 app.run()
