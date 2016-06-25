@@ -8,7 +8,8 @@
 	</head>
 	<body>
 		<form method="POST" enctype="multipart/form-data" action="/upload" id="file-uploadForm" role="form">
-			<input class="form-control" type="file" name="file" />
+			<input type="hidden" name="filename" value="{{number}}">
+			<input class="form-control" type="file" name="file"/>
 			<input type="submit" name="Submit" >
 		</form>
 	</body>

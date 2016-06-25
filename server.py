@@ -3,8 +3,8 @@ from subprocess import call
 import sys 
 import os
 from OpenSSL import SSL
-
-
+import random
+import math
 
 
 app = Flask("HackingServer")
@@ -16,18 +16,18 @@ app.config['FNAME'] = ""
 
 @app.route("/",methods=["GET"])
 def render_home():
-	return render_template('index.html')
+	return render_template('index.html',number = int(math.ceil((random.random()*1000000))))
 
 @app.route("/upload",methods=["POST"])
 def upload_it():
 	_file = request.files["file"]
-	_filename = _file.filename
+	_filename = request.form['filename']
 	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
 	_file.save(os.path.join(app.config['UPLOAD_FOLDER']+_filename,'random.txt'))
-	app.config['FNAME'] = _file.filename
+	app.config['FNAME'] = _filename
 	call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
 	call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
-	return redirect('/fileHome')
+	return redirect('/fileHome?name='+_filename)
 
 @app.route('/fileHome',methods=['GET'])
 def fileHome():
