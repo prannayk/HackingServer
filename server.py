@@ -22,6 +22,7 @@ def render_home():
 def upload_it():
 	_file = request.files["file"]
 	_filename = request.form['filename']
+	call("mkdir " + app.config['UPLOAD_FOLDER']+_filename, shell=True)
 	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
 	_file.save(os.path.join(app.config['UPLOAD_FOLDER']+_filename,'random.txt'))
 	app.config['FNAME'] = _filename
