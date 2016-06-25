@@ -1,5 +1,6 @@
 from flask import Flask, request, json, send_from_directory, render_template, session, redirect
-from subprocess import call
+from subprocess import call, Popen
+import shlex
 import sys 
 import os
 from OpenSSL import SSL
@@ -22,12 +23,19 @@ def render_home():
 def upload_it():
 	_file = request.files["file"]
 	_filename = request.form['filename']
-	call("mkdir " + app.config['UPLOAD_FOLDER']+_filename, shell=True)
-	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
-	_file.save(os.path.join(app.config['UPLOAD_FOLDER']+_filename,'random.txt'))
+        os.system("mkdir " + app.config['UPLOAD_FOLDER'] + _filename)
+        #p = Popen(shlex.split("mkdir" + app.config['UPLOAD_FOLDER'] + _filename), shell=True)
+	#call("mkdir " + app.config['UPLOAD_FOLDER']+_filename, shell=True)
+	#call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
+
+	_file.save(app.config['UPLOAD_FOLDER']+_filename+'/random.txt')
 	app.config['FNAME'] = _filename
-	call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
-	call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
+	#call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
+        os.system(os.environ['binaryCall'] + " uploads/" + _filename +
+        "/random.txt")
+	#call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
+        os.system("cp hash.txt " + app.config['UPLOAD_FOLDER'] + _filename +
+                "/hash.txt")
 	return redirect('/fileHome?name='+_filename)
 
 @app.route('/fileHome',methods=['GET'])
