@@ -26,16 +26,14 @@ def upload_it():
         os.system("mkdir " + app.config['UPLOAD_FOLDER'] + _filename)
         #p = Popen(shlex.split("mkdir" + app.config['UPLOAD_FOLDER'] + _filename), shell=True)
 	#call("mkdir " + app.config['UPLOAD_FOLDER']+_filename, shell=True)
-	#call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
+	call(["mkdir",app.config['UPLOAD_FOLDER']+_filename])
 
 	_file.save(app.config['UPLOAD_FOLDER']+_filename+'/random.txt')
 	app.config['FNAME'] = _filename
-	#call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
-        os.system(os.environ['binaryCall'] + " uploads/" + _filename +
-        "/random.txt")
-	#call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
-        os.system("cp hash.txt " + app.config['UPLOAD_FOLDER'] + _filename +
-                "/hash.txt")
+	call([os.environ['binaryCall'],"uploads/"+_filename+"/random.txt"])
+        #os.system(os.environ['binaryCall'] + " uploads/" + _filename + "/random.txt")
+	call(["cp","hash.txt",app.config['UPLOAD_FOLDER']+_filename+'/hash.txt'])
+        #os.system("cp hash.txt " + app.config['UPLOAD_FOLDER'] + _filename + "/hash.txt")
 	return redirect('/fileHome?name='+_filename)
 
 @app.route('/fileHome',methods=['GET'])

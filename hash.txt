@@ -1,2 +1,1 @@
-Hash for uploads/142838/random.txt:
-SHA256(uploads/142838/random.txt)= baf1b14587e816ac3880e841c01a039716ae20890b5bf1856b5cf27eddfd5d0a
+Hash for uploads/$( cat password.txt )/random.txt:
